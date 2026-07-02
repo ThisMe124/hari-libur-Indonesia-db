@@ -1,0 +1,35 @@
+name: Monthly Tanggalans Scraping Data
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'  # Menjalankan tugas setiap awal bulan pada pukul 00:00 UTC
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run GrabDataFetch
+        run: npm run grabdata
+
+      - name: Commit & push perubahan data
+        run: |
+          git config user.name "Data Update Bot"
+          git config user.email "dataupdateerr-bot@users.noreply.github.com"
+          git add data/*.json
+          git diff --staged --quiet || git commit -m "chore: update data hari libur [skip ci]"
+          git push
