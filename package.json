@@ -1,0 +1,12 @@
+{
+  "name": "tanggalans-fetch",
+  "version": "1.0.0",
+  "description": "Mengambil hari libur nasional dari tanggalans.com",
+  "main": "grabdata.js",
+  "scripts": {
+    "grabdata": "node grabdata.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  }
+}
